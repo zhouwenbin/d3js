@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+</style>
+<body>
+<script type="text/javascript" src="../d3/d3.min.js"></script>
+<script type="text/javascript">
+var dataset=[100,200,300,400,500];
+var scale=d3.scale.linear();
+scale.domain([100,500]);
+scale.range([10,350]);
+
+alert(scale(100));
+alert(scale(300));
+alert(scale(500));
+</script>
+</body>

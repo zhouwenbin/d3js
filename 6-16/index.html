@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.bar{
+	display:inline-block;
+	width: 20px;
+	height: 75px;
+	background-color: teal;
+	margin-right: 2px;
+}
+</style>
+<body>
+<script type="text/javascript" src="../d3/d3.min.js"></script>
+<script type="text/javascript">
+var dataset=[25,7,5,26,11,25,7,5,26];
+var w=500;
+var h=100;
+var barPadding=1;
+
+var svg=d3.select("body")
+		.append("svg")
+		.attr("width",w)
+		.attr("height",h);
+
+svg.selectAll("rect")
+	.data(dataset)
+	.enter()
+	.append("rect")
+	.attr("y",0)
+	.attr("width",w/dataset.length-barPadding)
+	.attr("height",100)
+	.attr("x",function(d,i){
+		return i*(w/dataset.length);
+	});
+
+</script>
+</body>
