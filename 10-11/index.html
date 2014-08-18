@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+svg text{
+	pointer-events:none;
+}
+rect{
+	-webkit-transition:all 0.3s;
+	transition:all 0.3s;
+}
+rect:hover{
+	fill:orange;
+}
+</style>
+<body>
+<script type="text/javascript" src="../d3/d3.min.js"></script>
+<script type="text/javascript">
+var dataset=[5,10,13,19,21,25,22,18,15,13,11,12,15,20,18,17,16,18,23,25];
+var w=600;
+var h=250;
+var barPadding=1;
+var xScale=d3.scale.ordinal()
+	.domain(d3.range(dataset.length))
+	.rangeRoundBands([0,w],0.05);
+var yScale=d3.scale.linear()
+	.domain([0,d3.max(dataset,function(d){
+		return d;
+	})])
+	.range([0,h]);	
+
+var svg=d3.select("body")
+		.append("svg")
+		.attr("width",w)
+		.attr("height",h);
+
+svg.selectAll("rect")
+	.data(dataset)
+	.enter()
+	.append("rect")
+	
+	.on("click",function(d){
+		sortBars();
+	})
+	.attr("y",function(d){
+		return h-yScale(d);
+	})
+	.attr("width",xScale.rangeBand())
+	.attr("height",function(d){
+		return yScale(d);
+	})
+	.attr("x",function(d,i){
+		return xScale(i);
+	})
+	.attr("fill",function(d){
+		return "rgb(0,0,"+(d*10)+")";
+	})
+	.append("title")
+	.text(function(d){
+		return d;
+	});
+
+
+var sortOrder=false;
+var sortBars=function(){
+	sortOrder=!sortOrder;
+	svg.selectAll("rect")
+		.sort(function(a,b){
+			if(sortOrder){
+				return d3.ascending(a,b);
+			}
+			else{
+				return d3.descending(a,b);
+			}
+		})
+		.transition()
+		.delay(function(d,i){
+			return i*50;
+		})
+		.duration(1000)
+		.attr("x",function(d,i){
+			return xScale(i);
+		});
+}
+</script>
+</body>
