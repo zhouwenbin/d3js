@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+</style>
+<body>
+<script type="text/javascript" src="../d3/d3.min.js"></script>
+<script type="text/javascript">
+var w=500;
+var h=300;
+
+var svg=d3.select("body")
+	.append("svg")
+	.attr("width",w)
+	.attr("height",h);
+var path=d3.geo.path();
+d3.json("../data/us-states.json",function(json){
+	svg.selectAll("path")
+		.data(json.features)
+		.enter()
+		.append("path")
+		.attr("d",path)
+		.style("fill","blue");
+})
+
+var projection=d3.geo.albersUsa()
+	.translate([w/2,h/2])
+	.scale([500]);
+
+var path=d3.geo.path()
+	.projection(projection);
+</script>
+</body>
