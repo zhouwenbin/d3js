@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.v-bar{
+	background: #666;
+	margin-right: 5px;
+	display: inline-block;
+}
+.v-bar span{color: #fff;}
+</style>
+<body>
+	<div id="container"></div>
+<script type="text/javascript" src="../d3/d3.min.js"></script>
+<script>
+var data=[];
+var next=function(x){
+	return 15+x*x;
+};
+
+var newData=function(){
+	data.push(next);
+	return data;
+};
+
+function render(){
+	var selection=d3.select("#container")
+					.selectAll("div")
+					.data(newData);
+
+	selection.enter().append("div").append("span");
+	selection.exit().remove();
+	selection.attr("class","v-bar")
+			 .style("height",function(d,i){
+			 	return d(i)+"px";
+			 })
+			 .select("span")
+			 .text(function(d,i){
+			 	return d(i);
+			 });
+
+}
+setInterval(function(){
+	render();
+},1500);
+
+render();
+</script>
+</body>
